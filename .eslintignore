@@ -1,0 +1,5 @@
+/bin/*
+/lib/*
+!/lib/bundle.js.flow
+/flow-typed/npm
+/coverage

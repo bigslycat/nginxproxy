@@ -1,0 +1,9 @@
+{
+  "command": "yarn run build",
+  "proxies": {
+    "/gh/": {
+      "url": "https://raw.githubusercontent.com/",
+      "enable-cors": true
+    }
+  }
+}

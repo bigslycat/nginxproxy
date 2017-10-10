@@ -1,0 +1,43 @@
+{
+  "name": "nodenginx",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Nodejs and nginx Docker image with quick proxying exernal hosts",
+  "os": [
+    "linux"
+  ],
+  "engines": {
+    "node": ">=8.5.0",
+    "yarn": ">=1.1.0"
+  },
+  "scripts": {
+    "patch": "echo nodenginx:`shx cat package.json | json version`",
+    "min": "yarn -s patch | grep -oE ^[a-z]+:[0-9]+\\.[0-9]",
+    "maj": "yarn -s patch | grep -oE ^[a-z]+:[0-9]+",
+    "tag": "yarn tag:latest && yarn tag:patch && yarn tag:min && yarn tag:maj",
+    "tag:latest": "docker tag nodenginx bigslycat/nodenginx",
+    "tag:patch": "docker tag nodenginx bigslycat/`yarn -s patch`",
+    "tag:min": "docker tag nodenginx bigslycat/`yarn -s min`",
+    "tag:maj": "docker tag nodenginx bigslycat/`yarn -s maj`",
+    "push": "yarn push:latest && yarn push:patch && yarn push:min && yarn push:maj",
+    "push:latest": "docker push bigslycat/nodenginx:latest",
+    "push:patch": "docker push bigslycat/`yarn -s patch`",
+    "push:min": "docker push bigslycat/`yarn -s min`",
+    "push:maj": "docker push bigslycat/`yarn -s maj`",
+    "build": "docker build --no-cache -t nodenginx:latest -t `yarn -s patch` -t `yarn -s min` -t `yarn -s maj` .",
+    "build:test": "docker build --no-cache -t nodenginx-test"
+  },
+  "devDependencies": {
+    "babel-eslint": "8.0.1",
+    "eslint": "4.8.0",
+    "eslint-config-airbnb-base": "12.0.2",
+    "eslint-plugin-flowtype": "2.38.0",
+    "eslint-plugin-import": "2.7.0",
+    "flow-bin": "0.56.0",
+    "json": "9.0.6",
+    "shx": "0.2.2"
+  },
+  "repository": "git@github.com:bigslycat/nodenginx.git",
+  "author": "Pavel Tereschenko <me@pavlik.pro> (https://github.com/bigslycat)",
+  "license": "MIT"
+}
