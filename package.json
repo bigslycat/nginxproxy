@@ -1,7 +1,7 @@
 {
   "name": "nodenginx",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Nodejs and nginx Docker image with quick proxying exernal hosts",
   "os": [
     "linux"
