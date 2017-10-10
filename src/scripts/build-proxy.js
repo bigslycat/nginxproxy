@@ -7,29 +7,24 @@
 'use strict'
 
 const { writeFileSync } = require('fs')
-const { resolve } = require('path')
 
-let config
-
-const configFile = '/etc/nodenginx/nodenginx.json'
+let proxies
 
 try {
-  // eslint-disable-next-line
-  config = require(configFile)
+  try {
+    // eslint-disable-next-line
+    proxies = require('/etc/nginxproxy/nginxproxy.json')
+  } catch (e) {
+    // eslint-disable-next-line
+    proxies = require('/etc/nginxproxy/nginxproxy.js')
+  }
 } catch (e) {
-  console.log(`${configFile} not found. Skipping proxy generation...`)
+  console.log('Proxies config not found or broken. Skipping proxy generation...')
   process.exit(0)
 }
 
-const { proxies } = config
-
-if (!proxies) {
-  console.log(`"proxies" entry in ${configFile} not found. Skipping proxy generation...`)
-  process.exit(0)
-}
-
-if (typeof proxies !== 'object' || Array.isArray(proxies)) {
-  console.log(`"proxies" entry in ${configFile} must be an object. Skipping proxy generation...`)
+if (!proxies || typeof proxies !== 'object' || Array.isArray(proxies)) {
+  console.log('Proxies config must be an object. Skipping proxy generation...')
   process.exit(0)
 }
 
@@ -65,8 +60,8 @@ const build =
 
 const save =
   ({ name, content }) => writeFileSync(
-    resolve('/etc/nginx/conf.d/default.d', `location.${name}.conf`),
-    content, 'utf8',
+    `/etc/nginx/conf.d/default.d/location.${name}.conf`,
+    content, 'utf8'
   )
 
 Object
