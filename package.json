@@ -2,7 +2,7 @@
   "name": "nginxproxy",
   "private": true,
   "version": "0.0.1",
-  "description": "Nodejs and nginx Docker image with quick proxying exernal hosts",
+  "description": "Nginx Docker image with quick proxying exernal hosts",
   "os": [
     "linux"
   ],
