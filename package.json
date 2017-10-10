@@ -14,8 +14,8 @@
     "patch": "echo nodenginx:`shx cat package.json | json version`",
     "min": "yarn -s patch | grep -oE ^[a-z]+:[0-9]+\\.[0-9]",
     "maj": "yarn -s patch | grep -oE ^[a-z]+:[0-9]+",
-    "tag": "yarn tag:latest && yarn tag:patch && yarn tag:min && yarn tag:maj",
-    "tag:latest": "docker tag nodenginx bigslycat/nodenginx",
+    "tags": "yarn tag:latest && yarn tag:patch && yarn tag:min && yarn tag:maj",
+    "tag:latest": "docker tag nodenginx bigslycat/nodenginx:latest",
     "tag:patch": "docker tag nodenginx bigslycat/`yarn -s patch`",
     "tag:min": "docker tag nodenginx bigslycat/`yarn -s min`",
     "tag:maj": "docker tag nodenginx bigslycat/`yarn -s maj`",
@@ -25,7 +25,8 @@
     "push:min": "docker push bigslycat/`yarn -s min`",
     "push:maj": "docker push bigslycat/`yarn -s maj`",
     "build": "docker build --no-cache -t nodenginx:latest -t `yarn -s patch` -t `yarn -s min` -t `yarn -s maj` .",
-    "build:test": "docker build --no-cache -t nodenginx-test"
+    "build:test": "docker build --no-cache -t nodenginx-test",
+    "postversion": "yarn run build && yarn run tags && yarn run push"
   },
   "devDependencies": {
     "babel-eslint": "8.0.1",
