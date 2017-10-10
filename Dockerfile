@@ -7,7 +7,7 @@ COPY src/scripts/build-proxy.js /opt/build-proxy
 RUN \
   chmod +x /opt/build-proxy && \
   apk update && \
-  apk add nodejs && \
+  apk add nodejs-current && \
   rm -rf /var/cache/apk/*
 
 COPY nginx/ /etc/nginx/
