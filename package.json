@@ -19,7 +19,11 @@
     "tag:patch": "docker tag nginxproxy bigslycat/`yarn -s patch`",
     "tag:min": "docker tag nginxproxy bigslycat/`yarn -s min`",
     "tag:maj": "docker tag nginxproxy bigslycat/`yarn -s maj`",
-    "push": "docker push bigslycat/nginxproxy",
+    "push": "yarn push:latest && yarn push:patch && yarn push:min && yarn push:maj",
+    "push:latest": "docker push bigslycat/nginxproxy:latest",
+    "push:patch": "docker push bigslycat/`yarn -s patch`",
+    "push:min": "docker push bigslycat/`yarn -s min`",
+    "push:maj": "docker push bigslycat/`yarn -s maj`",
     "build": "docker build --no-cache -t nginxproxy:latest -t `yarn -s patch` -t `yarn -s min` -t `yarn -s maj` .",
     "build:test": "docker build --no-cache -t nginxproxy-test",
     "postversion": "yarn run build && yarn run tags && yarn run push"
