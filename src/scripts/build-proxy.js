@@ -7,6 +7,7 @@
 'use strict'
 
 const { writeFileSync } = require('fs')
+const { resolve } = require('path')
 
 let proxies
 
@@ -28,11 +29,15 @@ if (!proxies || typeof proxies !== 'object' || Array.isArray(proxies)) {
   process.exit(0)
 }
 
+const toZeroFill = value => value.toLocaleString(
+  'en', { minimumIntegerDigits: 3, useGrouping: false }
+)
+
 const toLowerCase = str => str.toLowerCase()
 
 const toKebabCase =
   str => str
-    .split(/[^a-z0-9]/i)
+    .split(/[^a-z0-9]+/i)
     .filter(Boolean)
     .map(toLowerCase)
     .join('-')
@@ -50,7 +55,7 @@ const template = (from, to, cors) =>
 const build =
   ([localPath, entryConfig]) => {
     const url = typeof entryConfig === 'string' ? entryConfig : entryConfig.url
-    const cors = entryConfig['enable-cors']
+    const cors = !!entryConfig['enable-cors']
 
     return {
       name: localPath === '/' ? 'root' : toKebabCase(localPath),
@@ -59,10 +64,18 @@ const build =
   }
 
 const save =
-  ({ name, content }) => writeFileSync(
-    `/etc/nginx/conf.d/default.d/location.${name}.conf`,
-    content, 'utf8'
-  )
+  ({ name, content }, index) => {
+    const fileName = [
+      'location', toZeroFill(index), name, 'conf',
+    ]
+      .filter(Boolean)
+      .join('.')
+
+    writeFileSync(
+      resolve('/etc/nginx/conf.d/default.d', fileName),
+      content, 'utf8'
+    )
+  }
 
 Object
   .entries(proxies)
