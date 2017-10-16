@@ -77,7 +77,14 @@ const save =
     )
   }
 
-Object
+const isRoot = item => item.name === 'root'
+const isNotRoot = item => !isNotRoot(item)
+
+const builded = Object
   .entries(proxies)
-  .map(build)
-  .forEach(save)
+  .map(build);
+
+[
+  ...builded.filter(isRoot),
+  ...builded.filter(isNotRoot),
+].forEach(save)
