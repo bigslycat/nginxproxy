@@ -1,7 +1,7 @@
 {
   "name": "nginxproxy",
   "private": true,
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Nginx Docker image with quick proxying exernal hosts",
   "os": [
     "linux"
