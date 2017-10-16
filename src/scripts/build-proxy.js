@@ -78,7 +78,7 @@ const save =
   }
 
 const isRoot = item => item.name === 'root'
-const isNotRoot = item => !isNotRoot(item)
+const isNotRoot = item => !isRoot(item)
 
 const builded = Object
   .entries(proxies)
